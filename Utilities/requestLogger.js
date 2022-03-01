@@ -1,7 +1,7 @@
 const fs = require('fs');
-const { promisify } = require('util');
+const Util = require('util');
 
-const appendFile = promisify(fs.appendFile);
+const appendFile = Util.promisify(fs.appendFile);
 
 async function requestLogger(req, res, next){
     try{
