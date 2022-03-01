@@ -9,7 +9,7 @@ const authRoute = require('./Routes/authRoute');
 const app = express();
 require("./DB/db");
 app.use(bodyparser.json());
-app.use(myReqLogger);
+// app.use(myReqLogger);
 app.use('/auth', authRoute);
 app.use('/user', userRoute);
 app.use('/merchant', merchantRoute);
