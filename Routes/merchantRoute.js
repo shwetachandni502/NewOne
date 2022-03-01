@@ -1,0 +1,26 @@
+const express = require('express');
+const middleware = require("../Middleware/fun");
+const routing = express.Router();
+const merchant = require('../Controller/merchantController');
+const upload = require("../Middleware/multer");
+
+//  routing.all('*', merchant.inValid);
+ routing.post("/parking/add",
+ middleware.authenticateToken,
+ upload.fields([{name: 'parkingImage', maxCount:8}]),
+ merchant.addParking,
+ );
+ routing.patch("/parking/update",
+ middleware.authenticateToken,
+ upload.fields([{name: 'parkingImage', maxCount:8}]),
+ merchant.updateParking,
+ );
+//  routing.put('/parking/about',middleware.authenticateToken, merchant.updateAbout)
+//  routing.put('/parking/contact',middleware.authenticateToken, merchant.updateParkingContactInfo)
+//  routing.put('/parking/price',middleware.authenticateToken, merchant.updateParkingPrice)
+//  routing.put('/parking/address',middleware.authenticateToken, merchant.updateParkingAddress)
+ routing.post('/parking/zone/add',middleware.authenticateToken, merchant.addParkingZone)
+ routing.post('/parking/zone/update',middleware.authenticateToken, merchant.updateParkingZone)
+ routing.put('/parking/availability/update',middleware.authenticateToken, merchant.updateParkingAvailability)
+ 
+module.exports = routing;
