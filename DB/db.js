@@ -6,4 +6,4 @@ mongoose
     useNewUrlParser: true,
   })
   .then(() => console.log("Database connected"))
-  .catch((err) => console.log("Error in database connection"));
+  .catch((err) => console.log("Error in database connection", err.message));
