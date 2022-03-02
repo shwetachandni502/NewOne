@@ -22,6 +22,7 @@ return false
 }
 
 function onError(error){
+    console.log("inside in on error")
     if(error.syscall!== 'listen'){
         throw error;
     }
