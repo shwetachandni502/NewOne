@@ -6,9 +6,12 @@ var port = normalizePort(process.env.PORT || 4000);
 app.set('port', port);
 var server = http.createServer(app);
 
-server.listen(port);
+// server.listen(port);
+server.listen(port, () =>{
+    console.log(`App running on port ${port} ...`);
+});
 // server.on('error', onError);
-server.on('listening', onListening);
+// server.on('listening', onListening);
 
 function normalizePort(val){
     var port =parseInt(val, 10);
