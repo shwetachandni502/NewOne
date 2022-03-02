@@ -2,7 +2,7 @@
 var app  = require('../app');
 var debug = require('debug')('myapp:server');
 var http = require('http');
-var port = normalizePort(5000);
+var port = 5000;
 app.set('port', port);
 var server = http.createServer(app);
 
