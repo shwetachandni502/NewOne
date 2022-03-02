@@ -96,7 +96,10 @@ exports.login = async (req, res) => {
 };
 exports.data = async(req,res) => {
   console.log("Working")
-  res.send ({'working': true})
+  res.send({
+    success: true,
+   
+  });
 }
 exports.signup = async (req, res, next) => {
   try {
