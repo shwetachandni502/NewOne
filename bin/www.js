@@ -2,12 +2,12 @@
 var app  = require('../app');
 var debug = require('debug')('myapp:server');
 var http = require('http');
-var port = 5000;
+var port = normalizePort(process.env.PORT || 5000);
 app.set('port', port);
 var server = http.createServer(app);
 
 server.listen(port);
-// server.on('error', onError);
+server.on('error', onError);
 server.on('listening', onListening);
 
 function normalizePort(val){
@@ -22,7 +22,6 @@ return false
 }
 
 function onError(error){
-    console.log("inside in on error")
     if(error.syscall!== 'listen'){
         throw error;
     }
@@ -46,7 +45,6 @@ function onError(error){
 }
 
 function onListening() {
-    console.log("inside in on error")
     var addr = server.address();
     var bind = typeof addr === 'string'
     ? 'pipe'+ addr :
