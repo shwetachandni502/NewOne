@@ -96,6 +96,7 @@ exports.login = async (req, res) => {
 };
 exports.signup = async (req, res, next) => {
   try {
+    console.log("call signup")
     // check existing email
     const {phoneNumber, password, accountType } = req.body;
     let check_user = await Auth.findOne({phoneNumber});
