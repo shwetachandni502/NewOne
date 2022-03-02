@@ -2,7 +2,7 @@
 var app  = require('../app');
 var debug = require('debug')('myapp:server');
 var http = require('http');
-var port = normalizePort('5000');
+var port = normalizePort('3000');
 app.set('port', port);
 var server = http.createServer(app);
 
@@ -35,8 +35,8 @@ function onError(error){
             console.error(bind + 'requires elevated privileges');
             process.exit(1);
             break;
-            case 'EADDRINUSE':
-                console.error(bind + 'is already in use');
+        case 'EADDRINUSE':
+            console.error(bind + 'is already in use');
             process.exit(1);
             break;
             default:
