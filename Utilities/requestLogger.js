@@ -1,7 +1,6 @@
 const fs = require('fs');
 const Util = require('util');
-const async = require('asyncawait/async');
-const await = require('asyncawait/await');
+
 
 const appendFile = Util.promisify(fs.appendFile);
 

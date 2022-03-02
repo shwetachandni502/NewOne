@@ -1,6 +1,6 @@
 const express = require('express');
 const bodyparser = require('body-parser');
-const myReqLogger = require('./Utilities/requestLogger');
+// const myReqLogger = require('./Utilities/requestLogger');
 const userRoute = require('./Routes/userRoute');
 const merchantRoute = require('./Routes/merchantRoute');
 const providerRoute = require('./Routes/providerRoute');
