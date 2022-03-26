@@ -246,31 +246,7 @@ exports.updateParkingAvailability = async (req, res) => {
     }
 };
 
-exports.getProfile = async (req, res) => {
-    try {
-        let userProfile;
-        const user = await Auth.findById(req.data.id);
-        if (!user) return res.status(404).json({ error: "User not found" });
 
-        const payment = await Payment.find({ userId: req.data.id });
-        let totalEarning = 0;
-        payment.forEach((el) =>
-            totalEarning = totalEarning + parseFloat(el.amount)
-        );
-
-        if (payment) {
-            walkerProfile = walker.toObject();
-            walkerProfile.totalEarning = totalEarning.toFixed(6);
-        } else {
-            walkerProfile = walker;
-        }
-        const admin = await Admin.findOne({ role: 'admin' });
-        const walkerCommission = admin.walkerCommission;
-
-        return res.status(200).json({ success: true, data: { walker: walkerProfile, walkerCommission } });
-    } catch (error) {
-    }
-};
 exports.addPaymentMethod = async (req, res) => {
     try {
         const { cardHolderName, cardMethod, cardNumber, expiryDate, cvvNumber } = req.body;

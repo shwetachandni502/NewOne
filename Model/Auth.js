@@ -153,6 +153,9 @@ const authDetailsSchema = new mongoose.Schema({
     default: "user",
     enum: ["merchant", "user", "provider"],
   },
+  qrCode: {
+    type: String,
+  }
 });
 
 const Auth = mongoose.model("AuthDetails", authDetailsSchema);

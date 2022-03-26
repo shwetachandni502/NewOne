@@ -5,6 +5,7 @@ const Validator = require('../Utilities/validator');
 const {otpGenerator, fast2sms} = require("../Utilities/helpers");
 const Merchant = require('../Model/Merchant');
 const keys = require("../Config/config");
+const qrcode = require("qrcode")
 
 exports.inValid = async (req, res) => {
     res.status(404).json({
@@ -40,11 +41,9 @@ exports.login = async (req, res) => {
         user = await Auth.findOne({
         phoneNumber
        });
-    if(!user) return res.status(404).json({ error: "Email not found" });
-
-     
-    }
-
+      }
+    if(!user) return res.status(404).json({ error: "Email or Phone not found" });
+      
     const verifyPassword = passwordHash.verify(
       password,
       user.password
@@ -112,30 +111,43 @@ exports.signup = async (req, res, next) => {
  
     const hashedPassword = passwordHash.generate(password);
      const otp = otpGenerator(4);
-    // await fast2sms(
-    //   {
-    //     message: `Your OTP is ${otp}`,
-    //     contactNumber: phoneNumber,
-    //   },
-    //   next
-    // );
+    await fast2sms(
+      {
+        message: `Your OTP is ${otp}`,
+        contactNumber: phoneNumber,
+      },
+      next
+    );
     console.log("after")
+    // For Deployment
+  const qrData = { phoneNumber};
+  let strData = JSON.stringify(qrData);
+   const generateQR = await qrcode.toDataURL(strData)
+ console.log("generateQR", generateQR)
      let new_user = new Auth({
         phoneNumber,
         password: hashedPassword,
         accountType,
         otp,
+        qrCode:generateQR,
      });
 
     const payload = {
       id: new_user._id,
       phoneNumber: `${new_user.phoneNumber}`,
     };
-  console.log("after payload")
     let token = jwt.sign(payload, keys.secretOrKey, { expiresIn: 31556926 });
-console.log("after token")
     const save = await new_user.save();
-
+    
+  
+    // For development & testing
+  // qrcode.toString(strData, {type:'terminal'},
+  //                     function (err, code) {
+     
+  //     if(err) return err.message;
+     
+  // });
+  
      res.send({
       success: true,
       msg: "Details saved",
@@ -304,56 +316,6 @@ console.log("after token")
     }
   };
   
-  exports.socialSignup = async (req, res) => {
-    try {
-      //check existing email
-      let check_email = await Walker.findOne({
-        "basicInfo.email": req.body.email,
-      });
-  
-      if (check_email)
-        return res.status(400).json({ error: "Email is already registered" });
-  
-      let new_walker = new Owner({
-        basicInfo: {
-          image: req.body.image,
-          fullName: req.body.fullName,
-          email: req.body.email,
-          country: req.body.country,
-          coordinates: {
-            lat: req.body.lat,
-            lng: req.body.lng,
-          },
-        },
-        socialId: {
-          facebook: req.body.type === "facebook" && req.body.socialId,
-          google: req.body.type === "google" && req.body.socialId,
-        },
-        devices: {
-          deviceId: req.body.deviceId,
-          deviceType: req.body.deviceType,
-          token: req.body.token,
-        },
-      });
-  
-      const payload = {
-        id: new_walker._id,
-        name: `${new_walker.basicInfo.fullName}`,
-        image: new_walker.basicInfo.image,
-      };
-  
-      let token = jwt.sign(payload, keys.secretOrKey, { expiresIn: 31556926 });
-  
-      const save = await new_walker.save();
-  
-      return res.status(200).json({
-        success: true,
-        msg: "Details saved",
-        data: { walker: save, token },
-      });
-    } catch (error) {
-    }
-  };
   
   exports.profileSetup = async (req, res) => {
     try {

@@ -85,6 +85,10 @@ const parkingSchema = new mongoose.Schema({
     default: "active",
     enum: ["active", "Inactive"],
   },
+  isFeePaid: {
+    type: Boolean,
+    default: false
+  },
   created_at: {
     type: Date,
     default: Date.now(),
