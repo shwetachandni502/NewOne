@@ -20,6 +20,7 @@ exports.fast2sms = async ({ message, contactNumber }, next) => {
       message,
       numbers: [contactNumber],
     });
+    console.log("res------", res)
    next
   } catch (error) {
     next(error);
