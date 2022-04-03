@@ -15,8 +15,8 @@ app.use('/user', userRoute);
 app.use('/merchant', merchantRoute);
 app.use('/provider', providerRoute);
 
-// const port = process.env.PORT || 4000;
-// app.listen(port, () =>{
-//     console.log(`App running on port ${port} ...`);
-// });
+const port = process.env.PORT || 5000;
+app.listen(port, () =>{
+    console.log(`App running on port ${port} ...`);
+});
 module.exports = app;

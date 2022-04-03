@@ -5,7 +5,8 @@ const Validator = require('../Utilities/validator');
 const {otpGenerator, fast2sms} = require("../Utilities/helpers");
 const Merchant = require('../Model/Merchant');
 const keys = require("../Config/config");
-const qrcode = require("qrcode")
+const qrcode = require("qrcode");
+const sendMail = require("../Common/sendMail")
 
 exports.inValid = async (req, res) => {
     res.status(404).json({
@@ -319,6 +320,41 @@ exports.signup = async (req, res, next) => {
   
   exports.profileSetup = async (req, res) => {
     try {
+      console.log("profile")
+      const { firstName,lastName,email,country, state, zipcode } = req.body;
+      const User = await Auth.findOne({_id: req.data.id});
+      User.firstName = firstName;
+      User.lastName = lastName;
+      User.email = email;
+      User.country = country;
+      User.state = state;
+      User.zipcode = zipcode;
+    //   walker.basicInfo.image = req.files && req.files.image && keys.apiURL + req.files.image[0].filename || keys.apiURL + "default.png",
+    //   walker.basicInfo.photoId = req.files && req.files.photoId && keys.apiURL + req.files.photoId[0].filename || keys.apiURL + "default.png";
+    //   walker.basicInfo.insuranceProof = req.files && req.files.insuranceProof&& keys.apiURL + req.files.insuranceProof[0].filename || keys.apiURL + "default.png";
+    const otp = otpGenerator(4);
+    // const subject = "Email Authentication";
+    // const text =  "Your otp is "+ otp;
+    //  const isSent = await sendMail(email, subject, text);
+    //  if(isSent){
+      const save = await User.save();
+      return res.status(200).json({
+        success: true,
+        msg: "Your Profile hasbeen updated successfully",
+        data: { User: save },
+      });
+    //  }
+      return res.status(200).json({
+        success: false,
+        msg: "Sorry! Your mail is not verified",   
+      });
+    } catch (error) {
+      return res.status(500).json({ error: error.message });
+    }
+  };
+  
+  exports.updateProfile = async (req, res) => {
+    try {
       const { firstName,lastName,email,country, state, zipcode } = req.body;
       const User = await Auth.findOne({_id: req.data.id});
       User.firstName = firstName;
@@ -346,35 +382,7 @@ exports.signup = async (req, res, next) => {
         success: false,
         msg: "Sorry! Your mail is not verified",   
       });
-    } catch (error) {
-      return res.status(500).json({ error: error.message });
-    }
-  };
-  
-  exports.updateProfile = async (req, res) => {
-    try {
-      const { fullName, age, hourlyRate, description, companyName, additionalServices} = req.body;
-      const check_exist = await Walker.findOne(req.params.walkerId);
-      if(!check_exist) return res.status(404).json({ error: 'Not found'})
-      const walker = await Walker.findOne({_id: req.params.walkerId});
-      walker.fee = hourlyRate || check_exist.fee;
-      walker.basicInfo.fullName = fullName || check_exist.basicInfo.fullName;
-      walker.basicInfo.age = age || check_exist.basicInfo.age;
-      walker.additionalServices = additionalServices || check_exist.additionalServices;
-      walker.basicInfo.hourlyRate = hourlyRate || check_exist.basicInfo.hourlyRate;
-      walker.basicInfo.description = description || check_exist.basicInfo.description;
-      walker.basicInfo.companyName = companyName || check_exist.basicInfo.companyName;
-      walker.basicInfo.image = req.files && req.files.image && keys.apiURL + req.files.image[0].filename || check_exist.basicInfo.image,
-      walker.basicInfo.photoId = req.files && req.files.photoId && keys.apiURL + req.files.photoId[0].filename || check_exist.basicInfo.photoId;
-      walker.basicInfo.insuranceProof = req.files && req.files.insuranceProof&& keys.apiURL + req.files.insuranceProof[0].filename || check_exist.basicInfo.insuranceProof;
-  
-      const save = await walker.save();
-  
-      return res.status(200).json({
-        success: true,
-        msg: "Your Profile hasbeen updated successfully",
-        data: { walker: save },
-      });
+    
     } catch (error) {
       return res.status(500).json({ error: error.message });
     }
