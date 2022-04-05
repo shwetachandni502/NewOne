@@ -10,6 +10,8 @@ const Middleware = require('../Middleware/fun')
  routing.put('/profile/update', Middleware.authenticateToken, auth.profileSetup);
  routing.post('/email/otp/resend', auth.resendEmailOTP);
  routing.post('/phone/otp/resend', auth.resendPhoneOTP);
+ routing.post('/forgot/password', auth.forgotPassword);
+ routing.post('/reset/password', auth.resetPassword);
  routing.get('/data', auth.data);
  routing.all('*', auth.inValid);
 

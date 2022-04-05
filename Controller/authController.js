@@ -416,4 +416,69 @@ exports.signup = async (req, res, next) => {
     } catch (error) {
     }
   };
+
+  exports.forgotPassword = async (req, res) => {
+    try {
+      const { phoneNumber } = req.body;
+      const user = await Auth.findOne({ phoneNumber });
+      if (!user) return res.status(404).json({ error: "User not found" });
+      const otp = otpGenerator(4);
+      user.forgotPasswordToken = {
+        token: otp,
+        validTill: moment().add(2, "hours"),
+      };
+  
+      const sendSms =  await fast2sms(
+        {
+          message: `Your OTP is ${otp}`,
+          contactNumber: phoneNumber,
+        },
+        next
+      );
+     if(sendSms){
+      const updateUser = await user.save();
+      res.send({
+       success: true,
+       msg: "OTP has been sent on your phone",
+     });
+     }
+     else{
+       res.status(401).json({error: 'Something went wrong'})
+     }
+    } catch (error) {
+      res.status(500).json({error: 'Something went wrong'})
+    }
+  };
+  
+  exports.resetPassword = async (req, res) => {
+    try {
+      const { user_id, otp, new_password } = req.body;
+      const user = await Auth.findById(user_id);
+      if (!user) return res.status(404).json({ error: "User not found" });
+  
+      if (user.forgotPasswordToken && user.forgotPasswordToken.token) {
+        if (user.forgotPasswordToken.token !== otp) {
+          return res.status(400).json({ error: "Incorrect OTP" });
+        }
+        if (moment().isAfter(user.forgotPasswordToken.validTill)) {
+          return res
+            .status(401)
+            .json({ error: "OTP expired. Please generate a new one." });
+        }
+      } else {
+        return res
+          .status(404)
+          .json({ error: "Token not found. You cannot change your password" });
+      }
+      const hashedPassword = passwordHash.generate(new_password);
+      user.password = hashedPassword;
+      await user.save();
+      return res
+        .status(200)
+        .json({ success: true, msg: "Password changed successfully" });
+    } catch (error) {
+      res.status(500).json({error: 'Something went wrong'});
+    }
+  };
+  
   
