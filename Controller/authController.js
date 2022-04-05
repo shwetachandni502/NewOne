@@ -103,6 +103,9 @@ exports.data = async(req,res) => {
 }
 exports.signup = async (req, res, next) => {
   try {
+    console.log("call signup")
+    const ootp = otpGenerator(4);
+    console.log("oyp", ootp)
     // check existing email
     const {phoneNumber, password, accountType } = req.body;
     let check_user = await Auth.findOne({phoneNumber});
