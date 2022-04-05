@@ -1,11 +1,11 @@
 
-const codeGenerator = require("otp-generator");
+const codeGenerator = require("generate-otp");
 const fast2sms = require("fast-two-sms");
 const {FAST2SMS} = require("../Config/config");
 
 exports.otpGenerator = (code_length) => {
   return codeGenerator.generate(code_length, {
-    digits: true,
+    numbers: true,
     alphabets: false,
     upperCase: false,
     specialChars: false,

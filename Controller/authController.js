@@ -103,7 +103,6 @@ exports.data = async(req,res) => {
 }
 exports.signup = async (req, res, next) => {
   try {
-    console.log("call signup")
     // check existing email
     const {phoneNumber, password, accountType } = req.body;
     let check_user = await Auth.findOne({phoneNumber});
@@ -112,6 +111,7 @@ exports.signup = async (req, res, next) => {
  
     const hashedPassword = passwordHash.generate(password);
      const otp = otpGenerator(4);
+     console.log("oyp", otp)
     await fast2sms(
       {
         message: `Your OTP is ${otp}`,
