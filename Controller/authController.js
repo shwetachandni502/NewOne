@@ -6,7 +6,7 @@ const {otpGenerator, fast2sms} = require("../Utilities/helpers");
 const Merchant = require('../Model/Merchant');
 const keys = require("../Config/config");
 const qrcode = require("qrcode");
-const sendMail = require("../Common/sendMail")
+const sendMail = require("../Common/sendEmail")
 const moment = require("moment")
 
 exports.inValid = async (req, res) => {
@@ -263,6 +263,9 @@ exports.signup = async (req, res, next) => {
       user.otp = otp;
       await user.save();
     //  sent OTP
+     const subject = "Email Authentication";
+    const text =  "Your otp is "+ otp;
+     const isSent = await sendMail(email, subject, text);
       return res
         .status(200)
         .json({ success: true, msg: "OTP sent"});
@@ -336,9 +339,9 @@ exports.signup = async (req, res, next) => {
     //   walker.basicInfo.photoId = req.files && req.files.photoId && keys.apiURL + req.files.photoId[0].filename || keys.apiURL + "default.png";
     //   walker.basicInfo.insuranceProof = req.files && req.files.insuranceProof&& keys.apiURL + req.files.insuranceProof[0].filename || keys.apiURL + "default.png";
     const otp = otpGenerator(4);
-    // const subject = "Email Authentication";
-    // const text =  "Your otp is "+ otp;
-    //  const isSent = await sendMail(email, subject, text);
+    const subject = "Email Authentication";
+    const text =  "Your otp is "+ otp;
+     const isSent = await sendMail(email, subject, text);
     //  if(isSent){
       const save = await User.save();
       return res.status(200).json({
