@@ -110,7 +110,7 @@ exports.signup = async (req, res, next) => {
     const {phoneNumber, password, accountType } = req.body;
     let check_user = await Auth.findOne({phoneNumber});
     if (check_user)
-      return res.status(200).json({ error: "Phone number is already registered" });
+      return res.status(409).json({ error: "Phone number is already registered" });
  
     const hashedPassword = passwordHash.generate(password);
      const otp = otpGenerator(4);
@@ -122,7 +122,6 @@ exports.signup = async (req, res, next) => {
       },
       next
     );
-    console.log("after")
     // For Deployment
   const qrData = { phoneNumber};
   let strData = JSON.stringify(qrData);
