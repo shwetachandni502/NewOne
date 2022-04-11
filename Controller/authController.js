@@ -7,6 +7,7 @@ const Merchant = require('../Model/Merchant');
 const keys = require("../Config/config");
 const qrcode = require("qrcode");
 const sendMail = require("../Common/sendMail")
+const moment = require("moment")
 
 exports.inValid = async (req, res) => {
     res.status(404).json({
@@ -416,7 +417,7 @@ exports.signup = async (req, res, next) => {
     }
   };
 
-  exports.forgotPassword = async (req, res) => {
+  exports.forgotPassword = async (req, res, next) => {
     try {
       const { phoneNumber } = req.body;
       const user = await Auth.findOne({ phoneNumber });
@@ -434,18 +435,15 @@ exports.signup = async (req, res, next) => {
         },
         next
       );
-     if(sendSms){
       const updateUser = await user.save();
       res.send({
        success: true,
        msg: "OTP has been sent on your phone",
      });
-     }
-     else{
-       res.status(401).json({error: 'Something went wrong'})
-     }
+   
     } catch (error) {
-      res.status(500).json({error: 'Something went wrong'})
+      console.log("ererrr", error)
+      res.status(500).json({error: 'Internal server error'})
     }
   };
   
