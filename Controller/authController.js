@@ -329,16 +329,19 @@ exports.signup = async (req, res, next) => {
       console.log("profile")
       const { firstName,lastName,email,country, state, zipcode } = req.body;
       const User = await Auth.findOne({_id: req.data.id});
+      const otp = otpGenerator(4);
       User.firstName = firstName;
       User.lastName = lastName;
       User.email = email;
       User.country = country;
       User.state = state;
       User.zipcode = zipcode;
+      User.otp = otp;
     //   walker.basicInfo.image = req.files && req.files.image && keys.apiURL + req.files.image[0].filename || keys.apiURL + "default.png",
     //   walker.basicInfo.photoId = req.files && req.files.photoId && keys.apiURL + req.files.photoId[0].filename || keys.apiURL + "default.png";
     //   walker.basicInfo.insuranceProof = req.files && req.files.insuranceProof&& keys.apiURL + req.files.insuranceProof[0].filename || keys.apiURL + "default.png";
-    const otp = otpGenerator(4);
+   
+     
     const subject = "Email Authentication";
     const text =  "Your otp is "+ otp;
      const isSent = await sendMail(email, subject, text);
