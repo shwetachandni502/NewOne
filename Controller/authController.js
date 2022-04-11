@@ -341,7 +341,6 @@ exports.signup = async (req, res, next) => {
     //   walker.basicInfo.photoId = req.files && req.files.photoId && keys.apiURL + req.files.photoId[0].filename || keys.apiURL + "default.png";
     //   walker.basicInfo.insuranceProof = req.files && req.files.insuranceProof&& keys.apiURL + req.files.insuranceProof[0].filename || keys.apiURL + "default.png";
    
-     
     const subject = "Email Authentication";
     const text =  "Your otp is "+ otp;
      const isSent = await sendMail(email, subject, text);
@@ -455,8 +454,8 @@ exports.signup = async (req, res, next) => {
   
   exports.resetPassword = async (req, res) => {
     try {
-      const { user_id, otp, new_password } = req.body;
-      const user = await Auth.findById(user_id);
+      const {  otp, new_password } = req.body;
+      const user = await Auth.findOne({_id: req.data.id});
       if (!user) return res.status(404).json({ error: "User not found" });
   
       if (user.forgotPasswordToken && user.forgotPasswordToken.token) {
