@@ -20,7 +20,6 @@ module.exports = middlewares = {
       const token = req.headers["x-access-token"];
       const data = await jwt.verify(token, keys.secretOrKey);
       if (!data) return res.status(401).json({ error: "Invalid token" });
-
       req.data = data;
 
       next();
