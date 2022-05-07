@@ -20,6 +20,7 @@ const upload = require("../Middleware/multer");
 //  routing.put('/parking/price',middleware.authenticateToken, merchant.updateParkingPrice)
 //  routing.put('/parking/address',middleware.authenticateToken, merchant.updateParkingAddress)
  routing.post('/parking/zone/add',middleware.authenticateToken, merchant.addParkingZone)
+ routing.get('/parking/list/get', middleware.authenticateToken, merchant.getParkingList)
  routing.post('/parking/zone/update',middleware.authenticateToken, merchant.updateParkingZone)
  routing.put('/parking/availability/update',middleware.authenticateToken, merchant.updateParkingAvailability)
  

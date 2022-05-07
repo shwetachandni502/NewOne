@@ -323,7 +323,7 @@ exports.signup = async (req, res, next) => {
     }
   };
   
-  
+
   exports.profileSetup = async (req, res) => {
     try {
       console.log("profile")
@@ -337,9 +337,6 @@ exports.signup = async (req, res, next) => {
       User.state = state;
       User.zipcode = zipcode;
       User.otp = otp;
-    //   walker.basicInfo.image = req.files && req.files.image && keys.apiURL + req.files.image[0].filename || keys.apiURL + "default.png",
-    //   walker.basicInfo.photoId = req.files && req.files.photoId && keys.apiURL + req.files.photoId[0].filename || keys.apiURL + "default.png";
-    //   walker.basicInfo.insuranceProof = req.files && req.files.insuranceProof&& keys.apiURL + req.files.insuranceProof[0].filename || keys.apiURL + "default.png";
    
     const subject = "Email Authentication";
     const text =  "Your otp is "+ otp;
@@ -401,23 +398,8 @@ exports.signup = async (req, res, next) => {
       let userProfile;
       const user = await Auth.findById(req.data.id);
       if (!user) return res.status(404).json({ error: "User not found" });
-  
-      const payment = await Payment.find({userId: req.data.id});
-      let totalEarning = 0;
-       payment.forEach((el) => 
-          totalEarning = totalEarning + parseFloat(el.amount)
-      );
-      
-      if(payment){
-       walkerProfile = walker.toObject();
-      walkerProfile.totalEarning = totalEarning.toFixed(6);
-      } else{
-        walkerProfile = walker;
-      }
-      const admin = await Admin.findOne({role: 'admin'});
-      const walkerCommission = admin.walkerCommission;
      
-      return res.status(200).json({ success: true, data: { walker: walkerProfile, walkerCommission } });
+      return res.status(200).json({ success: true, data: { user } });
     } catch (error) {
     }
   };

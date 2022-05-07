@@ -11,6 +11,19 @@ exports.inValid = async (req, res) => {
         message: 'Invalid Path'
     })
 }
+exports.getParkingList = async(req, res) => {
+    try{
+     const parkingList = await Parking.find({merchantId: req.data.id})
+     if(!parkingList) return res.status(404).json({error: 'Parking not found'})
+     return res.status(200).json({
+        success: true,
+        data: { parkingList },
+    });
+    }
+    catch(error){
+        return error.message
+    }
+}
 
 exports.addParking = async (req, res) => {
     try {
