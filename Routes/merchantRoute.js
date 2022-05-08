@@ -8,7 +8,7 @@ routing.all('*', merchant.inValid);
 
  routing.post("/parking/add",
  middleware.authenticateToken,
- merchant.addParking,
+ merchant.parkingAdd,
  );
  routing.patch("/parking/update",
  middleware.authenticateToken,
