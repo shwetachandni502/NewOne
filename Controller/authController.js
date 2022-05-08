@@ -326,9 +326,8 @@ exports.signup = async (req, res, next) => {
 
   exports.profileSetup = async (req, res) => {
     try {
-      console.log("profile")
-      const { firstName,lastName,email,country, state, zipcode } = req.body;
-      const User = await Auth.findOne({_id: req.data.id});
+      const { firstName,lastName,email,country, state, zipcode, userId } = req.body;
+      const User = await Auth.findOne({_id: userId});
       const otp = otpGenerator(4);
       User.firstName = firstName;
       User.lastName = lastName;

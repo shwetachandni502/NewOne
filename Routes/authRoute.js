@@ -7,7 +7,7 @@ const Middleware = require('../Middleware/fun')
  routing.post('/login', auth.login);
  routing.post('/phone/otp/verification', auth.phoneOtpVerification);
  routing.post('/email/otp/verification', auth.emailOtpVerification);
- routing.put('/profile/update', Middleware.authenticateToken, auth.profileSetup);
+ routing.put('/profile/update',  auth.profileSetup);
  routing.get('/profile/get', Middleware.authenticateToken, auth.getProfile);
  routing.post('/email/otp/resend', auth.resendEmailOTP);
  routing.post('/phone/otp/resend', auth.resendPhoneOTP);
