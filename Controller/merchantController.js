@@ -43,7 +43,7 @@ exports.addParking = async (req, res) => {
                 phoneNumber
             },
             about,
-            parkingImage: keys.apiURL + "default.png"
+            // parkingImage: keys.apiURL + "default.png"
             // parkingImage: keys.apiURL + parkingImage[0].filename || keys.apiURL + "default.png"
         });
         const save = await new_parking.save();
