@@ -41,6 +41,11 @@ const parkingSchema = new mongoose.Schema({
     }
 
   }],
+  parkingType: {
+    type: String,
+    default: "residence",
+    enum: ["residence", "parkinglot", "garage"],
+  },
   parkingZone: [
     {
       zoneName: String,

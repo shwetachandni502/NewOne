@@ -216,9 +216,17 @@ exports.signup = async (req, res, next) => {
           .findOne({ _id: isUser._id })
           .select("-password -devices -otp")
           .exec();
+          const payload = {
+            id: userdata._id,
+            name: `${userdata.firstName}`,
+            email: userdata.email ? userdata.email : "",
+          
+          };
+      
+          let jwtoken = jwt.sign(payload, keys.secretOrKey, { expiresIn: 31556926 });
         return res.status(200).json({
           success: true,
-          data: userdata,
+          data: {user:userdata, token: jwtoken},
           msg: "Verified",
         });
       } else {
