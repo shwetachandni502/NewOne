@@ -7,12 +7,11 @@ const upload = require("../Middleware/multer");
 //  routing.all('*', merchant.inValid);
  routing.post("/parking/add",
  middleware.authenticateToken,
- upload.fields([{name: 'parkingImage', maxCount:3}]),
  merchant.addParking,
  );
  routing.patch("/parking/update",
  middleware.authenticateToken,
- upload.fields([{name: 'parkingImage', maxCount:3}]),
+ upload.fields([{name: 'parkingImage', maxCounts:3}]),
  merchant.updateParking,
  );
 //  routing.put('/parking/about',middleware.authenticateToken, merchant.updateAbout)
