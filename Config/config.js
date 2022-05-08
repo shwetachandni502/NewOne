@@ -2,7 +2,7 @@ require("dotenv").config();
 
 module.exports = {
   mongoURI: "mongodb://localhost:27017/test",
-  apiURL: "http://localhost:4000/",
+  apiURL: "http://ec2-54-226-102-227.compute-1.amazonaws.com/",
   FAST2SMS: process.env.FAST2SMS,
   secretOrKey: process.env.SECRET_OR_KEY,
   nodeENV: process.env.NODE_ENV,
