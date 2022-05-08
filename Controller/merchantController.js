@@ -27,6 +27,7 @@ exports.getParkingList = async(req, res) => {
 
 exports.addParking = async (req, res) => {
     try {
+        console.log("log of ADD PARKING_---")
         const { parkingName, price, address, name, phoneNumber, about } = req.body;
         const { parkingImage } = req.files;
         const check_exist = await Auth.findById(req.data.id);
