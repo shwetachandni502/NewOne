@@ -4,7 +4,6 @@ const routing = express.Router();
 const merchant = require('../Controller/merchantController');
 const upload = require("../Middleware/multer");
 
-routing.all('*', merchant.inValid);
 
  routing.post("/parking/add",
  middleware.authenticateToken,
