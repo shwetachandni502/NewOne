@@ -39,7 +39,6 @@ exports.parkingAdd = async (req, res) => {
             merchantId: req.data.id,
             parkingName,
             price,
-            address,
             contactInfo: {
                 name,
                 phoneNumber
@@ -47,6 +46,7 @@ exports.parkingAdd = async (req, res) => {
             about,
             parkingType,
             address: {
+                address,
                 city,
                 state,
                 zipCode

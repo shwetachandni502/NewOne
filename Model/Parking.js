@@ -26,9 +26,6 @@ const parkingSchema = new mongoose.Schema({
   parkingName: {
     type: String,
   },
-  address: {
-    type: String,
-  },
 
   availability: [{
     date: {
