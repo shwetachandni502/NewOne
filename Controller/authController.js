@@ -227,7 +227,7 @@ exports.signup = async (req, res, next) => {
         return res.status(200).json({
           success: true,
           data: {user:userdata, token: jwtoken},
-          msg: "Verified",
+          msg: "Email has been verified successfully",
         });
       } else {
         return res
