@@ -28,7 +28,9 @@ exports.getParkingList = async(req, res) => {
 exports.parkingAdd = async (req, res) => {
     try {
         console.log("log of ADD PARKING_---")
-        const { parkingName, price, address, name, phoneNumber, about, parkingType } = req.body;
+        const { parkingName, price, address, name, phoneNumber, about, parkingType,city,
+            state,
+            zipCode } = req.body;
         // const { parkingImage } = req.files;
         const check_exist = await Auth.findById(req.data.id);
         if (!check_exist) return res.status(404).json({ error: 'User not found' })
@@ -43,7 +45,12 @@ exports.parkingAdd = async (req, res) => {
                 phoneNumber
             },
             about,
-            parkingType
+            parkingType,
+            address: {
+                city,
+                state,
+                zipCode
+            }
             // parkingImage: keys.apiURL + "default.png"
             // parkingImage: keys.apiURL + parkingImage[0].filename || keys.apiURL + "default.png"
         });

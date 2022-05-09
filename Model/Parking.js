@@ -15,6 +15,11 @@ const parkingSchema = new mongoose.Schema({
   parkingImage: {
     type: String
   },
+  address: {
+   city: String,
+   state: String,
+   zipCode: String,
+  },
   price: {
     type: Number,
   },
