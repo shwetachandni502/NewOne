@@ -217,9 +217,9 @@ exports.signup = async (req, res, next) => {
           .select("-password -devices -otp")
           .exec();
           const payload = {
-            id: userdata._id,
-            name: `${userdata.firstName}`,
-            email: userdata.email ? userdata.email : "",
+            id: isUser._id,
+            name: `${isUser.firstName}`,
+            email: isUser.email ? isUser.email : "",
           
           };
       
