@@ -227,7 +227,7 @@ exports.signup = async (req, res, next) => {
           let jwtoken = jwt.sign(payload, keys.secretOrKey, { expiresIn: 31556926 });
         return res.status(200).json({
           success: true,
-          data: {token: jwtoken},
+          data: {user: userData, token: jwtoken},
           msg: "Email has been verified successfully",
         });
       } else {
