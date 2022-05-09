@@ -108,7 +108,7 @@ exports.signup = async (req, res, next) => {
     const ootp = otpGenerator(4);
     console.log("oyp", ootp)
     // check existing email
-    const {phoneNumber, password, accountType } = req.body;
+    const { phoneNumber, password, accountType } = req.body;
     let check_user = await Auth.findOne({phoneNumber});
     if (check_user)
       return res.status(409).json({ error: "Phone number is already registered" });
@@ -444,24 +444,11 @@ exports.signup = async (req, res, next) => {
   
   exports.resetPassword = async (req, res) => {
     try {
-      const {  otp, new_password } = req.body;
+      const {  new_password, old_password } = req.body;
       const user = await Auth.findOne({_id: req.data.id});
       if (!user) return res.status(404).json({ error: "User not found" });
-  
-      if (user.forgotPasswordToken && user.forgotPasswordToken.token) {
-        if (user.forgotPasswordToken.token !== otp) {
-          return res.status(400).json({ error: "Incorrect OTP" });
-        }
-        if (moment().isAfter(user.forgotPasswordToken.validTill)) {
-          return res
-            .status(401)
-            .json({ error: "OTP expired. Please generate a new one." });
-        }
-      } else {
-        return res
-          .status(404)
-          .json({ error: "Token not found. You cannot change your password" });
-      }
+      const verify = passwordHash.verify(old_password);
+      if(!verify) return res.status(404).json({ error: "Your old password is not correct !" });
       const hashedPassword = passwordHash.generate(new_password);
       user.password = hashedPassword;
       await user.save();
