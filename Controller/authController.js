@@ -215,7 +215,6 @@ exports.signup = async (req, res, next) => {
   
         const userdata = await Auth
           .findOne({ _id: isUser._id })
-          .select("-password -devices -otp")
           .exec();
           const payload = {
             id: isUser._id,
