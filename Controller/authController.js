@@ -212,7 +212,7 @@ exports.signup = async (req, res, next) => {
         isUser.isEmailVerified = true;
         await isUser.save();
   
-        var userdata = await Auth
+        const userdata = await Auth
           .findOne({ _id: isUser._id })
           .select("-password -devices -otp")
           .exec();
