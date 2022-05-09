@@ -444,6 +444,7 @@ exports.signup = async (req, res, next) => {
   
   exports.resetPassword = async (req, res) => {
     try {
+      console.log("log, reset password")
       const {  new_password, old_password } = req.body;
       const user = await Auth.findOne({_id: req.data.id});
       if (!user) return res.status(404).json({ error: "User not found" });
