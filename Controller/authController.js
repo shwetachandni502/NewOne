@@ -200,6 +200,7 @@ exports.signup = async (req, res, next) => {
   
   exports.emailOtpVerification = async (req, res, next) => {
     try {
+      console.log("cal email otp")
       const isUser = await Auth
         .findById({_id: req.body.userId})
         .exec();
