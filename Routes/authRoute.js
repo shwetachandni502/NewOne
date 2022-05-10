@@ -13,6 +13,7 @@ const Middleware = require('../Middleware/fun')
  routing.post('/phone/otp/resend', auth.resendPhoneOTP);
  routing.post('/forgot/password', auth.forgotPassword);
  routing.post('/reset/password',Middleware.authenticateToken, auth.resetPassword);
+ routing.post('/change/password',Middleware.authenticateToken, auth.changePassword);
  routing.get('/data', auth.data);
  routing.all('*', auth.inValid);
 

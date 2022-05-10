@@ -27,7 +27,6 @@ exports.getParkingList = async(req, res) => {
 
 exports.parkingAdd = async (req, res) => {
     try {
-        console.log("log of ADD PARKING_---", req.body)
         const { parkingName, price, address, name, phoneNumber, about, parkingType,city,
             state,
             zipCode } = req.body;
