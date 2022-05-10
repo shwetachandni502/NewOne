@@ -450,7 +450,7 @@ exports.signup = async (req, res, next) => {
       if (!user) return res.status(404).json({ error: "User not found" });
       console.log("sdfsdf", )
       const verify = passwordHash.verify(old_password, user.password);
-       if(verify) return res.status(404).json({ error: "Your old password is not correct !"});
+       if(!verify) return res.status(404).json({ error: "Your old password is not correct !"});
       const hashedPassword = passwordHash.generate(new_password);
       user.password = hashedPassword;
       await user.save();
