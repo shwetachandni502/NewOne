@@ -441,24 +441,6 @@ exports.signup = async (req, res, next) => {
     }
   };
   
-  exports.resetPassword = async (req, res) => {
-    try {
-      const {  new_password, old_password } = req.body;
-      const user = await Auth.findOne({_id: req.data.id});
-      if (!user) return res.status(404).json({ error: "User not found" });
-      const verify = passwordHash.verify(old_password, user.password);
-       if(!verify) return res.status(404).json({ error: "Your old password is not correct !"});
-      const hashedPassword = passwordHash.generate(new_password);
-      user.password = hashedPassword;
-      await user.save();
-      return res
-        .status(200)
-        .json({ success: true, msg: "Password changed successfully" });
-    } catch (error) {
-      res.status(500).json({error: 'Something went wrong'});
-    }
-  };
-
   exports.changePassword = async (req, res) => {
     try {
       const {  new_password, old_password } = req.body;
