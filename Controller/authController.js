@@ -8,7 +8,6 @@ const keys = require("../Config/config");
 const qrcode = require("qrcode");
 const sendMail = require("../Common/sendEmail")
 const moment = require("moment")
-const bcrypt = require("bcryptjs");
 
 exports.inValid = async (req, res) => {
     res.status(404).json({
@@ -444,7 +443,7 @@ exports.signup = async (req, res, next) => {
   
   exports.resetPassword = async (req, res) => {
     try {
-      console.log("log, reset password", req.data.id)
+      console.log("log reset password", req.data.id)
       const {  new_password, old_password } = req.body;
       const user = await Auth.findOne({_id: req.data.id});
       console.log("user", user)
