@@ -8,6 +8,7 @@ const keys = require("../Config/config");
 const qrcode = require("qrcode");
 const sendMail = require("../Common/sendEmail")
 const moment = require("moment")
+const bcrypt = require("bcryptjs");
 
 exports.inValid = async (req, res) => {
     res.status(404).json({
@@ -221,7 +222,6 @@ exports.signup = async (req, res, next) => {
             id: isUser._id,
             name: `${isUser.firstName}`,
             email: isUser.email ? isUser.email : "",
-          
           };
       
           let jwtoken = jwt.sign(payload, keys.secretOrKey, { expiresIn: 31556926 });
@@ -448,7 +448,8 @@ exports.signup = async (req, res, next) => {
       const {  new_password, old_password } = req.body;
       const user = await Auth.findOne({_id: req.data.id});
       if (!user) return res.status(404).json({ error: "User not found" });
-      const verify = passwordHash.verify(old_password);
+      const verify = passwordHash.verify( old_password,
+        user.password);
       if(!verify) return res.status(404).json({ error: "Your old password is not correct !" });
       const hashedPassword = passwordHash.generate(new_password);
       user.password = hashedPassword;
