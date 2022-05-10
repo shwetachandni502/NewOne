@@ -448,8 +448,9 @@ exports.signup = async (req, res, next) => {
       const {  new_password, old_password } = req.body;
       const user = await Auth.findOne({_id: req.data.id});
       if (!user) return res.status(404).json({ error: "User not found" });
-      console.log("sdfsdf", )
+      console.log("check", old_password, user.password)
       const verify = passwordHash.verify(old_password, user.password);
+      console.log("sdfsdf", verify)
        if(!verify) return res.status(404).json({ error: "Your old password is not correct !"});
       const hashedPassword = passwordHash.generate(new_password);
       user.password = hashedPassword;
