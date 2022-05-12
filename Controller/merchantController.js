@@ -333,21 +333,16 @@ exports.addBankAccount = async (req, res) => {
 //Dry Cleaning
 exports.addDrycleaning = async (req, res) => {
     try {
-        const { name, phoneNumber, about, dryCleanerName, streetAddress, city, state, zipCode } = req.body;
+        const {  dryCleanerName, city, state, zipCode } = req.body;
         const check_exist = await Auth.findById(req.data.id);
         if (!check_exist) return res.status(404).json({ error: 'User not found' })
 
 
         let new_cleaning = new Drycleaning({
             merchantId: req.data.id,
-            contactInfo: {
-                name,
-                phoneNumber
-            },
-            about,
             dryCleanerName,
             address: {
-                address: streetAddress,
+                address,
                 city,
                 state,
                 zipCode
