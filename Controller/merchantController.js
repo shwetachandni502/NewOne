@@ -1,5 +1,6 @@
 const Auth = require('../Model/Auth');
 const Parking = require('../Model/Parking');
+const Drycleaning = require('../Model/Drycleaning');
 const Validator = require('../Utilities/validator');
 const { otpGenerator } = require("../Utilities/helpers");
 const Merchant = require('../Model/Merchant');
@@ -322,6 +323,42 @@ exports.addBankAccount = async (req, res) => {
             success: true,
             msg: "Parking hasbeen added successfully",
             data: { parkingDetails: save },
+        });
+    }
+    catch (error) {
+        return error.message;
+    }
+}
+
+//Dry Cleaning
+exports.addDrycleaning = async (req, res) => {
+    try {
+        const { name, phoneNumber, about, dryCleanerName, streetAddress, city, state, zipCode } = req.body;
+        const check_exist = await Auth.findById(req.data.id);
+        if (!check_exist) return res.status(404).json({ error: 'User not found' })
+
+        let new_cleaning = new Drycleaning({
+            merchantId: req.data.id,
+            parkingName,
+            price,
+            contactInfo: {
+                name,
+                phoneNumber
+            },
+            about,
+            dryCleanerName,
+            address: {
+                address: streetAddress,
+                city,
+                state,
+                zipCode
+            }
+        });
+        const save = await new_cleaning.save();
+        return res.status(200).json({
+            success: true,
+            msg: "Data hasbeen added successfully",
+            data: { cleaningDetails: save },
         });
     }
     catch (error) {

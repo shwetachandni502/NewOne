@@ -4,7 +4,6 @@ const routing = express.Router();
 const merchant = require('../Controller/merchantController');
 const upload = require("../Middleware/multer");
 
-
  routing.post("/parking/add",
  middleware.authenticateToken,
  merchant.parkingAdd,
@@ -22,5 +21,11 @@ const upload = require("../Middleware/multer");
  routing.get('/parking/list/get', middleware.authenticateToken, merchant.getParkingList)
  routing.post('/parking/zone/update',middleware.authenticateToken, merchant.updateParkingZone)
  routing.put('/parking/availability/update',middleware.authenticateToken, merchant.updateParkingAvailability)
+
+ //Dry Cleaning
+ routing.post("/drycleaning/add",
+ middleware.authenticateToken,
+ merchant.addDrycleaning,
+ );
  
 module.exports = routing;
