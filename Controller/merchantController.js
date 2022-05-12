@@ -334,26 +334,26 @@ exports.addBankAccount = async (req, res) => {
 exports.addDrycleaning = async (req, res) => {
     try {
         console.log("dry cleaner")
-        // const {  dryCleanerName, city, state, zipCode } = req.body;
-        // const check_exist = await Auth.findById(req.data.id);
-        // if (!check_exist) return res.status(404).json({ error: 'User not found' })
+        const {  dryCleanerName, city, state, zipCode } = req.body;
+        const check_exist = await Auth.findById(req.data.id);
+        if (!check_exist) return res.status(404).json({ error: 'User not found' })
 
 
-        // let new_cleaning = new Drycleaning({
-        //     merchantId: req.data.id,
-        //     dryCleanerName,
-        //     address: {
-        //         address,
-        //         city,
-        //         state,
-        //         zipCode
-        //     }
-        // });
-        // const save = await new_cleaning.save();
+        let new_cleaning = new Drycleaning({
+            merchantId: req.data.id,
+            dryCleanerName,
+            address: {
+                address,
+                city,
+                state,
+                zipCode
+            }
+        });
+        const save = await new_cleaning.save();
         return res.status(200).json({
             success: true,
             msg: "Data hasbeen added successfully",
-            // data: { details: save },
+            data: { details: save },
         });
     }
     catch (error) {
